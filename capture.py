@@ -21,7 +21,7 @@ The capture script handles the measurement initiation and logging.
 
 __author__ = "Kaushik Chavali"
 __licence__ = "GPL"
-__version__ = "2.0"
+__version__ = "3.0"
 __status__ = "Developement"
 
 # Standard library imports.
