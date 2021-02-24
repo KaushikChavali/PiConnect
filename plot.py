@@ -1,13 +1,27 @@
 #!/usr/bin/env python3
-
-'''
+"""
 A script to stream real-time acceleration data from the sensor
 to the client for tagging.
-'''
+"""
+
+#    PiConnect - Intelligent Wireless Sensor Measurement Platform
+#    Copyright (C) 2021  Kaushik Chavali
+#
+#    This program is free software: you can redistribute it and/or modify
+#    it under the terms of the GNU General Public License as published by
+#    the Free Software Foundation.
+#
+#    This program is distributed in the hope that it will be useful,
+#    but WITHOUT ANY WARRANTY; without even the implied warranty of
+#    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+#    GNU General Public License for more details.
+#
+#    You should have received a copy of the GNU General Public License
+#    along with this program.  If not, see <https://www.gnu.org/licenses/>.
 
 __author__ = "Kaushik Chavali"
 __licence__ = "GPL"
-__version__ = "2.0"
+__version__ = "3.0"
 __status__ = "Developement"
 
 # Standard library imports.
