@@ -4,7 +4,11 @@
 Development of an intelligent sensor system for monitoring of battery storages.
 
 ## Overview
-An wireless control software to perform remote sensor measurements on an evaluation board.
+An wireless control application to perform remote sensor measurements on an evaluation board.
+
+GNU GPLv3.0 Licence, Copyright (C) 2021  Kaushik Chavali
+
+<img src="https://github.com/KaushikChavali/PiConnect/blob/main/screens/PiConnect.png?raw=true" alt="PiConnectv2 GUI">
 
 ## Features
 - Client-server model
@@ -16,6 +20,3 @@ An wireless control software to perform remote sensor measurements on an evaluat
 - Real-time event log
 - Supports dual-connection modes
 
-GNU GPLv3.0 Licence, Copyright (C) 2021  Kaushik Chavali
-
-<img src="https://github.com/KaushikChavali/PiConnect/blob/main/screens/PiConnect.png?raw=true" alt="PiConnectv2 GUI">
