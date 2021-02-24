@@ -1,10 +1,10 @@
 # PiConnect
 
 ## IDP
-Development of an intelligent sensor system for monitoring of battery storages.
+Development of an intelligent sensor system for monitoring battery storages
 
 ## Overview
-An wireless control application to perform remote sensor measurements on an evaluation board.
+A wireless control application to perform remote sensor measurements on an evaluation board.
 
 GNU GPLv3.0 Licence, Copyright (C) 2021  Kaushik Chavali
 
@@ -19,4 +19,54 @@ GNU GPLv3.0 Licence, Copyright (C) 2021  Kaushik Chavali
 - Synchronization of data files over the network
 - Real-time event log
 - Supports dual-connection modes
+- Cross-platform support
 
+## Requirements
+Python >= 3.0
+
+### Client-side
+* Matplotlib
+* Numpy
+* Paramiko
+* scp
+
+### Server-side
+* PySerial 3.5
+
+## Usage
+To run the application of the client.
+
+```console
+$ python3 client.py
+```
+
+To start the server on the evaluation board.
+
+```console
+$ python3 server.py
+```
+
+Use PyInstaller to package the application as a single file.
+
+### Client-side
+
+#### Packages
+* client.py
+
+#### Command
+```console
+$ pyinstaller client.py -n PiConnect --onefile --windowed
+```
+
+### Server-side
+
+#### Packages
+* server.py
+* helper.py
+* calibrate.py
+* capture.py
+* plot.py
+
+```console
+$ pyinstaller server.py -n PiConnect_Server --onefile
+```
