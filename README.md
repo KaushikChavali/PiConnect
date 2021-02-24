@@ -34,28 +34,16 @@ Python >= 3.0
 * PySerial 3.5
 
 ## Usage
-To run the application of the client.
-
-```console
-$ python3 client.py
-```
-
-To start the server on the evaluation board.
-
-```console
-$ python3 server.py
-```
-
-Use PyInstaller to package the application as a single file.
 
 ### Client-side
 
 #### Packages
 * client.py
 
-#### Command
+To run the application of the client.
+
 ```console
-$ pyinstaller client.py -n PiConnect --onefile --windowed
+$ python3 client.py
 ```
 
 ### Server-side
@@ -67,6 +55,8 @@ $ pyinstaller client.py -n PiConnect --onefile --windowed
 * capture.py
 * plot.py
 
+To start the server on the evaluation board.
+
 ```console
-$ pyinstaller server.py -n PiConnect_Server --onefile
+$ python3 server.py
 ```
