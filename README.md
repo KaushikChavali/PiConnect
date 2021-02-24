@@ -18,7 +18,7 @@ GNU GPLv3.0 Licence, Copyright (C) 2021  Kaushik Chavali
 - Remote initiation of measurements from multiple sensors
 - Synchronization of data files over the network
 - Real-time event log
-- Supports dual-connection modes
+- Supports dual-connection modes (USB and GPIO-pins)
 - Cross-platform support
 
 ## Requirements
