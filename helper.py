@@ -58,25 +58,6 @@ class Devices:
         self.name = name
         self.serial = serial
 
-def recv(ser, size):
-	"""
-	A function which performs non-blocking PySerial reads.
-	Parameters
-	----------
-	ser : object
-		The serial object created for each sensor
-	size : integer
-		The sample size in bytes
-	Returns
-	-------
-	value : bytes
-		The bytes read from the port
-	"""
-
-	value = ser.read(max(1, min(size, ser.in_waiting)))
-
-	return value
-
 def getConnectedSensors():
     """
     A function to parse connected sensors as a list and
@@ -183,6 +164,8 @@ def main():
     """
 
     global ports
+    baudrate=375000
+    timeout=0.10
 
     deviceList = list(lp.grep("/dev/tty[A-Za-z]*", True))
     deviceList.sort()
@@ -192,18 +175,15 @@ def main():
     for dev in deviceList:
         try:
             path = dev[0]
-            s = serial.Serial(path, 375000)
-
-            ctr = 0
-            byte_data = bytearray()
-            while ctr < 10:
-                byte_data += recv(s, 2)
-                ctr = ctr + 1
-
-            if len(byte_data) > 0:
+            s = serial.Serial(path, baudrate, timeout=timeout)
+            data = s.read(2)
+            if len(data) > 0:
                 ports.append(dev)
         except Exception as e:
+            print(e)
             pass
+        finally:
+            s.close()
 
 if __name__ == "__main__":
     main()
