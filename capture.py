@@ -26,6 +26,7 @@ __status__ = "Developement"
 
 # Standard library imports.
 import datetime
+import fileinput
 import itertools
 import math
 import multiprocessing
@@ -99,7 +100,7 @@ def writeFileToDisk(name, sensData, offset, startByte, start, end):
     startByte : float
         The sensor start byte.
     ctr : integer
-        A counter to keep track of start byte.
+        A counter to keep track of incorrect samples.
     sb : integer
         A variable which stores the correct start byte in the
         list.
@@ -114,14 +115,7 @@ def writeFileToDisk(name, sensData, offset, startByte, start, end):
     offset = float(offset)
     startByte = int(startByte)
 
-    ctr, sb = 0, 0
-
-    # Detect the correct start of the list
-    while ctr < 100:
-        if sensData[ctr] == startByte:
-            sb = ctr
-            break
-        ctr = ctr + 1
+    ctr = 0
 
     #open file for writes
     with open(path + filename, "w", buffering=fileBuffer) as f:
@@ -130,6 +124,8 @@ def writeFileToDisk(name, sensData, offset, startByte, start, end):
         f.write(
             start.strftime('%H:%M:%S.%f') + ", "
             + end.strftime('%H:%M:%S.%f') + "\n") # Add timestamp
+        f.write("incorrect sample count" + "\n") # Add counter
+        f.write("None" + "\n")  # Default value
         f.write(
             "raw data in hex" + ", "
             + "acceleration in dec" + ", "
@@ -137,27 +133,49 @@ def writeFileToDisk(name, sensData, offset, startByte, start, end):
 
         # Loop over the bytearray, process the data and write it
         # to a file.
-        # Iterate over length of bytearray with 2B interval(sampleSize)
-        for i in range(sb, len(sensData), sampleSize):
-            # Access two bytes, i.e. sample size
-            sd = sensData[i:i+sampleSize]
-            # Convert it in hex
-            acc_raw_hex = sd.hex()
-            # Convert hex to dec
-            acc_raw_dec = int(acc_raw_hex, 16)
-            # Adjust for sensitivity
-            acc_g_dec = acc_raw_dec * sensitivity
-            # Perform offset correction (rounded to 2 decimal places)
-            acc_in_g = acc_g_dec - offset
-            # Record the sample in a line
-            data = (str(acc_raw_hex)
-                + ",%.2f" % round(acc_g_dec, 2)
-                + ",%.2f" % round(acc_in_g, 2)
-                + "\n")
+        # Iterate over length of bytearray and enforce start byte
+        # for each sample.
+        i = 0
+        step = 1
+        while i < len(sensData):
+            # Access a sample
+            sample = sensData[i:i+sampleSize]
+            # Extract the starting byte
+            sb = sample[0]
+            # Enforce the detected start byte
+            if(sb == startByte-1
+               or sb == startByte
+               or sb == startByte+1):
+                # Convert it in hex
+                acc_raw_hex = sample.hex()
+                # Convert hex to dec
+                acc_raw_dec = int(acc_raw_hex, 16)
+                # Adjust for sensitivity
+                acc_g_dec = acc_raw_dec * sensitivity
+                # Perform offset correction (rounded to 2 decimal places)
+                acc_in_g = acc_g_dec - offset
+                # Record the sample in a line.
+                data = (str(acc_raw_hex)
+                    + ",%.2f" % round(acc_g_dec, 2)
+                    + ",%.2f" % round(acc_in_g, 2)
+                    + "\n")
+                # Set step size for the loop.
+                step = 2
+            else:
+                # Set NA as the value for the incorrect sample.
+                data = "NA,NA,NA\n"
+                ctr = ctr + 1
+                step = 1
+            # Increment loop counter
+            i = i + step
             # Append line to file
             f.write(data)
             # Add delay between writes to reduce CPU usage
             time.sleep(0.000001)
+    print("Incorrect sample count", ctr) #display status
+    # Update incorrect sample count in the file.
+    for line in fileinput.input(path+filename, inplace=True):
+        print(line.replace("None", str(ctr)), end='')
 
 def handleSerialComm(ser, name, offset, startByte, duration):
     """
