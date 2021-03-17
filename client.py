@@ -1487,7 +1487,7 @@ cid : integer
 # Parameters
 x_len = 300
 x_range = [0, 300]
-y_range = [-5, 5]
+y_range = [-9, 9]
 
 # Create figure for plotting
 fig = plt.Figure(figsize=(5, 4), dpi=100)
