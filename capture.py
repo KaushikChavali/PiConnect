@@ -32,6 +32,7 @@ import math
 import multiprocessing
 import os
 import random
+import sys
 import threading
 import time
 
@@ -111,7 +112,10 @@ def writeFileToDisk(name, sensData, offset, startByte, start, end):
     # Generate file name with timestamp
     startDate = start.strftime("%d%m%Y")
     startTime = start.strftime("%H%M%S")
-    app_path = os.path.dirname(os.path.realpath(__file__))
+    if getattr(sys, 'frozen', False):
+        app_path = os.path.dirname(sys.executable)
+    else:
+        app_path = os.path.dirname(os.path.realpath(__file__))
     path = app_path + "/samples/"
     filename = str(name) + "_" + startDate + "_" + startTime +  ".txt"
 
