@@ -91,6 +91,8 @@ def writeFileToDisk(name, sensData, offset, startByte, start, end):
         The start time of the measurement formated as date.
     startTime : string
         The start time of the measurement formated as time.
+    app_path : string
+        The application directory.
     path : string
         The local folder which stores measurement files.
     filename : string
@@ -109,7 +111,8 @@ def writeFileToDisk(name, sensData, offset, startByte, start, end):
     # Generate file name with timestamp
     startDate = start.strftime("%d%m%Y")
     startTime = start.strftime("%H%M%S")
-    path = "./samples/"
+    app_path = os.path.dirname(os.path.realpath(__file__))
+    path = app_path + "/samples/"
     filename = str(name) + "_" + startDate + "_" + startTime +  ".txt"
 
     offset = float(offset)
