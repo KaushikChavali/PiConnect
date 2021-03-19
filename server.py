@@ -148,7 +148,10 @@ def clientHandler(conn):
         elif cmd == b'stsync':
             print(cmd) # Log client request
             # Get application path
-            app_path = os.path.dirname(os.path.realpath(__file__))
+            if getattr(sys, 'frozen', False):
+                app_path = os.path.dirname(sys.executable)
+            else:
+                app_path = os.path.dirname(os.path.realpath(__file__))
             # Send path to client
             conn.sendall(app_path.encode())
 
