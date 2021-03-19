@@ -508,6 +508,14 @@ def identifySensors():
             + "Only one selection can be made.")
         txt_log.see("end")
         return
+    
+    offset = selection[0].offset
+    if int(offset) == 0:
+        txt_log.insert(tk.END,
+            timestampOp()
+            + "Please calibrate the sensor to initiate the plot.")
+        txt_log.see("end")
+        return
 
     lbl = selection[0].path
     configureAxes(label=lbl)
